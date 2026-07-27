@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Sprout &amp; Flourish</string>
+    <string name="title_activity_main">Sprout &amp; Flourish</string>
+    <string name="package_name">com.sproutgarden.app</string>
+    <string name="custom_url_scheme">com.sproutgarden.app</string>
+</resources>

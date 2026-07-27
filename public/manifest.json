@@ -1,0 +1,24 @@
+{
+  "name": "Sprout & Flourish — 3D Habit Tracker Garden",
+  "short_name": "SproutGarden",
+  "description": "Every habit you complete helps your virtual 3D garden grow. Build streaks, unlock rare plants, and cultivate daily goals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
