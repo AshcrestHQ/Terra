@@ -1,7 +1,7 @@
 {
-  "name": "Sprout & Flourish — 3D Habit Tracker Garden",
-  "short_name": "SproutGarden",
-  "description": "Every habit you complete helps your virtual 3D garden grow. Build streaks, unlock rare plants, and cultivate daily goals.",
+  "name": "Terra — 3D Habit Tracker Garden",
+  "short_name": "Terra",
+  "description": "Terra is a 3D habit-tracking garden built with Next.js, React Three Fiber, and Zustand. Every habit you keep grows a living plant through five stages — Seed, Sprout, Sapling, Mature, Blooming — set against a floating island scene with dynamic weather. Track streaks, view analytics, and watch consistency take root visually.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",

@@ -34,8 +34,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenShop, onOpenAnalytics }) =
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-extrabold text-lg tracking-wide text-gradient-emerald">
-                Sprout & Flourish
+              <h1 className="text-lg font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-200 tracking-tight">
+                Terra
               </h1>
               <span className="bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30">
                 Lvl {state.userLevel}

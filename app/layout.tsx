@@ -14,8 +14,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Sprout & Flourish — 3D Habit Tracker Garden',
-  description: 'Every habit you complete helps your virtual 3D garden grow. Build streaks, unlock rare plants, and cultivate your daily discipline.',
+  title: 'Terra — 3D Habit Tracker Garden',
+  description: 'A 3D Habit Tracker web application built with Next.js, React Three Fiber, and Zustand.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,

@@ -1,8 +1,6 @@
-# Sprout & Flourish — 3D Habit Tracker Garden (Next.js & Vercel)
+# Terra — 3D Habit Tracker Garden
 
-A 3D Habit Tracker web application built with **Next.js (App Router), TypeScript, React Three Fiber (@react-three/fiber), Drei (@react-three/drei), Three.js, Zustand, and Tailwind CSS**, optimized for instant 1-click deployment on **Vercel**.
-
-Every daily goal you check off nurtures your virtual 3D garden island. Habit streaks automatically advance 3D plant growth stages (`SEED` → `SPROUT` → `SAPLING` → `MATURE` → `BLOOMING`).
+Terra is a 3D habit-tracking garden built with Next.js, React Three Fiber, and Zustand. Every habit you keep grows a living plant through five stages — Seed, Sprout, Sapling, Mature, Blooming — set against a floating island scene with dynamic weather. Track streaks, view analytics, and watch consistency take root visually.
 
 ---
 
@@ -11,9 +9,10 @@ Every daily goal you check off nurtures your virtual 3D garden island. Habit str
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript
 - **3D Graphics Engine**: React Three Fiber (`@react-three/fiber`), Drei (`@react-three/drei`), Three.js
-- **State Management**: Zustand (with local storage persistence)
-- **Styling**: Tailwind CSS (Glassmorphism HUD overlays)
-- **Deployment Target**: Vercel
+- **State Management**: React Context & Zustand (with local storage persistence)
+- **Styling**: Tailwind CSS (Glassmorphism HUD overlays), Framer Motion (fluid animations)
+- **Deployment Target**: Cloudflare Pages (Static Export)
+- **Mobile Support**: Capacitor
 
 ---
 
@@ -26,13 +25,20 @@ Every daily goal you check off nurtures your virtual 3D garden island. Habit str
 │   └── page.tsx             # Main page combining 3D R3F Canvas & 2D Glass Overlay
 ├── components/
 │   ├── canvas/
-│   │   └── GardenScene.tsx  # R3F Canvas, OrbitControls, Environment, 3D Plants
+│   │   ├── GardenScene.tsx  # R3F Canvas, OrbitControls, Environment, 3D Plants
+│   │   ├── FloatingIsland.tsx
+│   │   └── WeatherParticles.tsx
 │   └── ui/
-│       └── HabitOverlay.tsx # Glassmorphism HUD checklist & streak stats
-├── store/
-│   └── useHabitStore.ts     # Zustand state store for habits, streaks & 3D growth stages
+│       ├── HabitModal.tsx   # Framer Motion animated glassmorphism modals
+│       ├── HabitList.tsx
+│       └── Navbar.tsx       
+├── context/
+│   └── GardenContext.tsx    # Core React Context for state, local storage sync, and gamification decay
 ├── public/
 │   └── models/              # Local GLTF / GLB 3D plant model assets
+├── types/
+├── next.config.js           # Next.js config (output: 'export')
+├── capacitor.config.ts      # Capacitor config pointing to 'out' directory
 ├── tailwind.config.js
 ├── tsconfig.json
 └── package.json
@@ -40,7 +46,9 @@ Every daily goal you check off nurtures your virtual 3D garden island. Habit str
 
 ---
 
-## 🎮 Growth Stage Thresholds (Zustand State Engine)
+## 🎮 Growth Stage Thresholds (Gamification Engine)
+
+Every missed day results in a health penalty for your plant, while checking off habits builds streaks and advances growth stages:
 
 | Habit Streak | Growth Stage | Model Loaded | Scale |
 | :--- | :--- | :--- | :--- |
@@ -52,16 +60,53 @@ Every daily goal you check off nurtures your virtual 3D garden island. Habit str
 
 ---
 
-## ⚡ Deployment to Vercel
+## ⚡ Development & Deployment
 
-### Option 1: 1-Click Vercel CLI Deployment
+### Local Development
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the Next.js development server:
+   ```bash
+   npm run dev
+   ```
+3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Cloudflare Pages Deployment (Static Export)
+
+Terra is configured as a Static Site Generator (SSG) via `output: 'export'` in `next.config.js`.
+
+**Automatic GitHub Deploy (Recommended):**
+1. Push this repository to GitHub.
+2. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/) -> **Workers & Pages**.
+3. Create a **Pages** application and connect your repository.
+4. Framework preset: **Next.js (Static HTML Export)**
+5. Build command: `npm run build`
+6. Build output directory: `out`
+7. Click **Deploy**!
+
+**Manual Deploy via Wrangler CLI:**
 ```bash
-npm install -g vercel
-vercel
+npm run build
+npx wrangler pages deploy out --project-name terra
 ```
 
-### Option 2: GitHub Repository Import
-1. Push this repository to GitHub.
-2. Go to [Vercel Dashboard](https://vercel.com/new).
-3. Click **Import Repository** → Select `sprout-flourish-3d-garden`.
-4. Click **Deploy**!
+### Mobile App (Capacitor)
+
+Terra fully supports wrapping as a native iOS/Android app via Capacitor. Because it is statically exported, Capacitor can read the `out/` directory directly.
+
+1. Build the web app:
+   ```bash
+   npm run build
+   ```
+2. Sync with Capacitor (ensure iOS/Android platforms are added):
+   ```bash
+   npx cap sync
+   ```
+3. Open in IDE:
+   ```bash
+   npx cap open ios
+   npx cap open android
+   ```

@@ -1,6 +1,6 @@
 const config = {
-  appId: 'com.sproutgarden.app',
-  appName: 'Sprout & Flourish',
+  appId: 'com.terra.app',
+  appName: 'Terra',
   webDir: 'out',
   server: {
     androidScheme: 'https'
