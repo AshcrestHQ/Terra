@@ -13,8 +13,8 @@ export const PlantDetailsModal: React.FC = () => {
   const plant = plants.find((p) => p.id === state.selectedPlantId);
   // if (!plant) return null;
 
-  const species = PLANT_SPECIES_LIST.find((s) => s.id === plant.speciesId) || PLANT_SPECIES_LIST[0];
-  const linkedHabit = habits.find((h) => h.id === plant.habitId);
+  const species = plant ? PLANT_SPECIES_LIST.find((s) => s.id === plant.speciesId) || PLANT_SPECIES_LIST[0] : PLANT_SPECIES_LIST[0];
+  const linkedHabit = plant ? habits.find((h) => h.id === plant.habitId) : null;
 
   const stageLabels = ['Seed', 'Sprout', 'Sapling', 'Mature', 'Blooming Mythic'];
 
