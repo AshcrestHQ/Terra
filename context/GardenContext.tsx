@@ -1,3 +1,4 @@
+"use client";
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import type {
@@ -137,16 +138,19 @@ const GardenContext = createContext<GardenContextType | undefined>(undefined);
 
 export const GardenProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [habits, setHabits] = useState<Habit[]>(() => {
+    if (typeof window === 'undefined') return INITIAL_HABITS;
     const saved = localStorage.getItem('garden_habits');
     return saved ? JSON.parse(saved) : INITIAL_HABITS;
   });
 
   const [plants, setPlants] = useState<PlantInstance[]>(() => {
+    if (typeof window === 'undefined') return INITIAL_PLANTS;
     const saved = localStorage.getItem('garden_plants');
     return saved ? JSON.parse(saved) : INITIAL_PLANTS;
   });
 
   const [state, setState] = useState<GardenState>(() => {
+    if (typeof window === 'undefined') return INITIAL_STATE;
     const saved = localStorage.getItem('garden_state');
     return saved ? JSON.parse(saved) : INITIAL_STATE;
   });
@@ -163,6 +167,42 @@ export const GardenProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   useEffect(() => {
     localStorage.setItem('garden_state', JSON.stringify(state));
   }, [state]);
+
+  // Daily Decay Logic
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const lastLogin = localStorage.getItem('garden_last_login');
+    const today = new Date().toISOString().split('T')[0];
+    
+    if (lastLogin && lastLogin !== today) {
+      const diffTime = Math.abs(new Date(today).getTime() - new Date(lastLogin).getTime());
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays > 0) {
+        setHabits(prev => prev.map(h => {
+          const wasCompletedYesterday = h.history.includes(lastLogin);
+          return {
+            ...h,
+            completedToday: false,
+            streak: wasCompletedYesterday && diffDays === 1 ? h.streak : 0
+          };
+        }));
+        
+        setPlants(prev => prev.map(p => {
+          const habit = habits.find(h => h.id === p.habitId);
+          if (habit) {
+            const wasCompletedYesterday = habit.history.includes(lastLogin);
+            if (!wasCompletedYesterday || diffDays > 1) {
+              return { ...p, health: Math.max(0, p.health - (20 * diffDays)) };
+            }
+          }
+          return p;
+        }));
+      }
+    }
+    localStorage.setItem('garden_last_login', today);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const triggerConfetti = () => {
     confetti({

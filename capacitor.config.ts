@@ -1,7 +1,7 @@
 const config = {
   appId: 'com.sproutgarden.app',
   appName: 'Sprout & Flourish',
-  webDir: 'dist',
+  webDir: 'out',
   server: {
     androidScheme: 'https'
   },

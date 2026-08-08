@@ -1,12 +1,29 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700', '800'] });
+
+export const viewport: Viewport = {
+  themeColor: '#0f172a',
+  width: 'device-width',
+  initialScale: 1.0,
+  maximumScale: 1.0,
+  userScalable: false,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   title: 'Sprout & Flourish — 3D Habit Tracker Garden',
-  description: 'Every habit you complete helps your virtual 3D garden grow. Build streaks, unlock rare plants, and cultivate daily goals.',
+  description: 'Every habit you complete helps your virtual 3D garden grow. Build streaks, unlock rare plants, and cultivate your daily discipline.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+  },
+  icons: {
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌱</text></svg>',
+  }
 };
 
 export default function RootLayout({
@@ -16,6 +33,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+              navigator.serviceWorker.register('/sw.js').catch((err) => {
+                console.log('Service Worker registration failed:', err);
+              });
+            });
+          }
+        `}} />
+      </head>
       <body className={`${inter.className} bg-slate-950 text-slate-100 antialiased overflow-hidden select-none`}>
         {children}
       </body>

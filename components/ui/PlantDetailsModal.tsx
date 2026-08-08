@@ -1,15 +1,17 @@
+"use client";
 import React from 'react';
 import { X, Droplets, Sprout, Heart, Sparkles, Calendar } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGarden } from '../../context/GardenContext';
 import { PLANT_SPECIES_LIST } from '../../types';
 
 export const PlantDetailsModal: React.FC = () => {
   const { habits, plants, state, waterPlantDirectly, setSelectedPlantId } = useGarden();
 
-  if (!state.selectedPlantId) return null;
+  // if (!state.selectedPlantId) return null;
 
   const plant = plants.find((p) => p.id === state.selectedPlantId);
-  if (!plant) return null;
+  // if (!plant) return null;
 
   const species = PLANT_SPECIES_LIST.find((s) => s.id === plant.speciesId) || PLANT_SPECIES_LIST[0];
   const linkedHabit = habits.find((h) => h.id === plant.habitId);
@@ -17,8 +19,16 @@ export const PlantDetailsModal: React.FC = () => {
   const stageLabels = ['Seed', 'Sprout', 'Sapling', 'Mature', 'Blooming Mythic'];
 
   return (
-    <div className="fixed top-20 right-4 z-40 w-full max-w-xs pointer-events-none">
-      <div className="pointer-events-auto glass-panel p-4 rounded-3xl border border-white/10 shadow-2xl animate-float">
+    <AnimatePresence>
+      {state.selectedPlantId && plant && (
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+          className="fixed top-20 right-4 z-40 w-full max-w-xs pointer-events-none"
+        >
+          <div className="pointer-events-auto glass-panel p-4 rounded-3xl border border-white/10 shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between pb-2 border-b border-white/10">
           <div className="flex items-center gap-2">
@@ -98,7 +108,9 @@ export const PlantDetailsModal: React.FC = () => {
           <Droplets className="w-4 h-4 text-cyan-200 fill-cyan-200/40" />
           <span>Water Flora (-15 Drops)</span>
         </button>
-      </div>
-    </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

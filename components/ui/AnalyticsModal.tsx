@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef } from 'react';
 import {
   X,
@@ -11,6 +12,7 @@ import {
   CheckCircle2,
   Calendar,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGarden } from '../../context/GardenContext';
 
 interface AnalyticsModalProps {
@@ -22,7 +24,7 @@ export const AnalyticsModal: React.FC<AnalyticsModalProps> = ({ isOpen, onClose 
   const { habits, plants, exportData, importData, resetData } = useGarden();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   const totalCompletions = habits.reduce((acc, h) => acc + h.history.length, 0);
   const bestOverallStreak = habits.reduce((max, h) => Math.max(max, h.bestStreak), 0);
@@ -51,8 +53,21 @@ export const AnalyticsModal: React.FC<AnalyticsModalProps> = ({ isOpen, onClose 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-panel w-full max-w-2xl max-h-[85vh] p-6 rounded-3xl border border-white/10 shadow-2xl flex flex-col">
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="glass-panel w-full max-w-2xl max-h-[85vh] p-6 rounded-3xl border border-white/10 shadow-2xl flex flex-col"
+          >
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-2.5">
@@ -183,8 +198,10 @@ export const AnalyticsModal: React.FC<AnalyticsModalProps> = ({ isOpen, onClose 
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset All</span>
           </button>
-        </div>
-      </div>
-    </div>
+          </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { Compass, Sparkles } from 'lucide-react';
 import { useGarden } from '../../context/GardenContext';

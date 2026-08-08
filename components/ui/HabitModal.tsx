@@ -1,5 +1,7 @@
+"use client";
 import React, { useState } from 'react';
 import { X, Sprout, Plus, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGarden } from '../../context/GardenContext';
 import type { HabitCategory } from '../../types';
 import { PLANT_SPECIES_LIST } from '../../types';
@@ -26,7 +28,7 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose }) => {
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('daily');
   const [selectedSpeciesId, setSelectedSpeciesId] = useState<string>('sprout');
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null; // Handled by AnimatePresence now
 
   const categories: HabitCategory[] = [
     'Health',
@@ -51,8 +53,21 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-panel w-full max-w-lg p-6 rounded-3xl border border-white/10 shadow-2xl animate-pulse-subtle">
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="glass-panel w-full max-w-lg p-6 rounded-3xl border border-white/10 shadow-2xl"
+          >
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <div className="flex items-center gap-2">
@@ -196,7 +211,9 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose }) => {
             <span>Plant Seed & Start Goal</span>
           </button>
         </form>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

@@ -1,5 +1,7 @@
+"use client";
 import React from 'react';
 import { X, Droplets, Sun, Lock, ShoppingBag, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGarden } from '../../context/GardenContext';
 import { PLANT_SPECIES_LIST } from '../../types';
 
@@ -11,11 +13,24 @@ interface PlantNurseryProps {
 export const PlantNursery: React.FC<PlantNurseryProps> = ({ isOpen, onClose }) => {
   const { state, buyPlant } = useGarden();
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-panel w-full max-w-3xl max-h-[85vh] p-6 rounded-3xl border border-white/10 shadow-2xl flex flex-col">
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="glass-panel w-full max-w-3xl max-h-[85vh] p-6 rounded-3xl border border-white/10 shadow-2xl flex flex-col"
+          >
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-2.5">
@@ -135,8 +150,10 @@ export const PlantNursery: React.FC<PlantNurseryProps> = ({ isOpen, onClose }) =
               </div>
             );
           })}
-        </div>
-      </div>
-    </div>
+          </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
