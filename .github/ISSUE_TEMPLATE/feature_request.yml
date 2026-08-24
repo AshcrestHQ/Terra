@@ -1,0 +1,43 @@
+name: ✨ Feature Request
+description: Suggest an idea or feature enhancement for Terra.
+title: "[FEATURE]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make Terra even better? Tell us about it below!
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of the feature or enhancement.
+      placeholder: Describe what feature you'd like to see added...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement / Motivation
+      description: Is your feature request related to a problem or limitation?
+      placeholder: I feel that tracking habit streaks would be more engaging if...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution / Design Idea
+      description: Describe the solution you'd like or how the 3D visual/UI should behave.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions Considered
+      description: Any alternative solutions or features you've considered.
+    validations:
+      required: false

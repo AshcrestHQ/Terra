@@ -1,0 +1,59 @@
+name: 🐛 Bug Report
+description: Create a report to help us reproduce and fix a bug in Terra.
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report an issue in Terra! Please fill out the sections below.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe the unexpected behavior...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How can maintainers reproduce the issue?
+      placeholder: |
+        1. Open the Terra web app
+        2. Create a new habit named "Daily Walk"
+        3. Change weather to "Stormy"
+        4. Observe the 3D plant canvas error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment & Hardware Specs
+      description: Please provide system details (OS, Browser version, GPU / WebGL 2.0 support).
+      placeholder: |
+        - OS: macOS Sonoma / Android 14 / Windows 11
+        - Browser: Chrome 125 / Safari 17.4
+        - Hardware: Apple M2 / NVIDIA RTX 4070 / Qualcomm Snapdragon 8 Gen 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or Console Logs
+      description: Add any visual evidence or browser developer console errors.
+    validations:
+      required: false
